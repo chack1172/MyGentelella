@@ -90,7 +90,7 @@ class Page extends DefaultPage
 			echo "	<link rel=\"stylesheet\" href=\"styles/{$this->style}/{$this->active_module}.css?ver=1.2\" type=\"text/css\" />\n";
 		}
 
-		echo "	<script type=\"text/javascript\" src=\"../jscripts/jquery.js\"></script>\n";
+		echo "	<script type=\"text/javascript\" src=\"styles/{$this->style}/jquery-2.2.4.min.js\"></script>\n";
 		echo "	<script type=\"text/javascript\" src=\"../jscripts/jquery.plugins.min.js\"></script>\n";
 		echo "	<script type=\"text/javascript\" src=\"../jscripts/general.js?ver={$mybb->version_code}\"></script>\n";
 		echo "	<script type=\"text/javascript\" src=\"./jscripts/admincp.js\"></script>\n";
