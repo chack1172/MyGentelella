@@ -36,13 +36,13 @@ if(!defined("IN_MYBB"))
 class Page extends DefaultPage
 {
     static $tid = 1;
-    
+
     function output_header($title="")
 	{
 		global $mybb, $admin_session, $lang, $plugins, $run_module;
 
         $page = "page_{$run_module}_{$this->active_action}";
-        
+
 		$args = array(
 			'this' => &$this,
 			'title' => &$title,
@@ -56,21 +56,21 @@ class Page extends DefaultPage
 		$rtl = "";
 		if($lang->settings['rtl'] == 1)
 			$rtl = " dir=\"rtl\"";
-        
+
         if(empty($mybb->user['avatar']))
             $mybb->user['avatar'] = $mybb->settings['useravatar'];
-        
+
         if (strpos($mybb->user['avatar'], 'http') === false)
 			$avatar = "../".$mybb->user['avatar'];
 		else
 			$avatar = $mybb->user['avatar'];
-        
+
         if($mybb->user['avatar'] && my_substr($mybb->user['avatar'], 0, 7) !== 'http://' && my_substr($mybb->user['avatar'], 0, 8) !== 'https://')
             $avatar = "../{$mybb->user['avatar']}";
-        
+
         if(!$mybb->user['avatar'])
             $avatar = "../".$mybb->settings['useravatar'];
-        
+
 		echo "<!DOCTYPE html>\n";
 		echo "<html>\n";
 		echo "<head>\n";
@@ -174,7 +174,7 @@ lang.saved = \"{$lang->saved}\";
         echo "        <ol class=\"breadcrumb\">\n";
 		echo $this->_generate_breadcrumb();
 		echo "        </ol>\n";
-		
+
 		if(isset($admin_session['data']['flash_message']) && $admin_session['data']['flash_message'])
 		{
 			$message = $admin_session['data']['flash_message']['message'];
@@ -226,7 +226,7 @@ lang.saved = \"{$lang->saved}\";
 		if($this->show_post_verify_error == true)
 			$this->output_error($lang->invalid_post_verify_key);
 	}
-    
+
     function output_footer($quit=true)
 	{
 		global $mybb, $maintimer, $db, $lang, $plugins;
@@ -247,7 +247,7 @@ lang.saved = \"{$lang->saved}\";
 			$debuglink = htmlspecialchars_uni(getenv("REQUEST_URI")) . "&amp;debug=1#footer";
 		else
 			$debuglink = htmlspecialchars_uni(getenv("REQUEST_URI")) . "?debug=1#footer";
-        
+
         echo "        <div class=\"clearfix\"></div>";
         echo "        <footer>\n";
         echo "          <div class=\"pull-right\">\n";
@@ -273,7 +273,7 @@ lang.saved = \"{$lang->saved}\";
 		if($quit != false)
 			exit;
 	}
-    
+
     function output_success($message)
 	{
 		echo "<div id=\"flash_message\" class=\"alert alert-success alert-dismissible fade in\" role=\"alert\">\n";
@@ -346,13 +346,13 @@ lang.saved = \"{$lang->saved}\";
 		echo "  </ul>\n";
 		echo "</div>\n";
 	}
-    
+
     function _build_menu()
 	{
         global $sidebar;
 		if(!is_array($this->_menu))
 			return false;
-        
+
 		$build_menu = '<div id="menu" class="menu_section">';
         $build_menu .= '    <ul class="nav side-menu">';
 		ksort($this->_menu);
@@ -361,26 +361,26 @@ lang.saved = \"{$lang->saved}\";
 			foreach($items as $menu_item)
 			{
 				$menu_item['link'] = htmlspecialchars_uni($menu_item['link']);
-                
+
                 $sub_menu = $menu_item['submenu'];
                 $sub_menu_title = $menu_item['title'];
-                
+
                 if ($sub_menu) {
                     $build_menu .= $this->_build_submenu($sub_menu_title, $sub_menu, $menu_item['id'], $this->active_module);
                 }
-                
+
                 $build_menu .= $sidebar;
 			}
 		}
         $build_menu .= '        '.$this->sidebar;
-        
+
         $build_menu .= '    </ul>';
 		$build_menu .= '</div>';
 
 		return $build_menu;
 	}
-    
-    function _build_submenu($title, $items=[], $item="", $mod="")
+
+    function _build_submenu($title, $items, $item="", $mod="")
     {
 		if (is_array($items)) {
 			$sidebar = new sideBarItem($title);
@@ -389,7 +389,7 @@ lang.saved = \"{$lang->saved}\";
         }
         return '';
 	}
-    
+
     function _generate_breadcrumb()
 	{
 		if(!is_array($this->_breadcrumb_trail))
@@ -404,7 +404,7 @@ lang.saved = \"{$lang->saved}\";
 		}
 		return $trail;
 	}
-    
+
     function output_nav_tabs($tabs=array(), $active='')
 	{
 		global $plugins;
@@ -418,7 +418,7 @@ lang.saved = \"{$lang->saved}\";
 			$target = '';
 			if(isset($tab['link_target']))
 				$target = " target=\"{$tab['link_target']}\"";
-            
+
 			if(!isset($tab['link']))
 				$tab['link'] = '';
 			echo "          <li class=\"{$class}\"><a href=\"{$tab['link']}\"{$target}>{$tab['title']}</a></li>\n";
@@ -428,7 +428,7 @@ lang.saved = \"{$lang->saved}\";
 		$arguments = array('tabs' => $tabs, 'active' => $active);
 		$plugins->run_hooks("admin_page_output_nav_tabs_end", $arguments);
 	}
-    
+
     function output_tab_control($tabs=array(), $observe_onload=true, $id="tabs")
 	{
 		global $plugins;
@@ -450,7 +450,7 @@ lang.saved = \"{$lang->saved}\";
 		}
 		echo "</ul>\n";
 	}
-    
+
     function output_confirm_action($url, $message="", $title="")
 	{
 		global $lang, $plugins;
@@ -477,7 +477,7 @@ lang.saved = \"{$lang->saved}\";
 		$form->end();
 		$this->output_footer();
 	}
-    
+
     function show_login($message="", $class="success")
 	{
 		global $plugins, $lang, $cp_style, $mybb, $config;
@@ -491,9 +491,9 @@ lang.saved = \"{$lang->saved}\";
 		$plugins->run_hooks('admin_page_show_login_start', $args);
 
 		$copy_year = COPY_YEAR;
-        
+
         $_SERVER['PHP_SELF'] = htmlspecialchars_uni($_SERVER['PHP_SELF']);
-        
+
         // Make query string nice and pretty so that user can go to his/her preferred destination
 		$query_string = '';
 		if($_SERVER['QUERY_STRING'])
@@ -505,8 +505,8 @@ lang.saved = \"{$lang->saved}\";
 			$query_string = str_replace('?&', '?', $query_string);
 			$query_string = htmlspecialchars_uni($query_string);
 		}
-        
-		$login_page .= <<<EOF
+
+		$login_page = <<<EOF
 <!DOCTYPE html>
 <html>
 <head profile="http://gmpg.org/xfn/1">
@@ -545,7 +545,7 @@ EOF;
 		}
         $lang_username = str_replace(':', '', $lang_username);
         $lang->password = str_replace(':', '', $lang->password);
-        
+
 		// Secret PIN
         $secret_pin = '';
 		if(isset($config['secret_pin']) && $config['secret_pin'] != '') {
@@ -588,7 +588,7 @@ EOF;
 		echo $login_page;
 		exit;
 	}
-    
+
     function show_2fa()
 	{
 		global $lang, $cp_style, $mybb;
@@ -603,7 +603,9 @@ EOF;
 			$query_string = str_replace('?&', '?', $query_string);
 			$query_string = htmlspecialchars_uni($query_string);
 		}
-        
+
+		$copy_year = COPY_YEAR;
+
 		$mybb2fa_page = <<<EOF
 <!DOCTYPE html>
 <html>
@@ -651,17 +653,17 @@ class SidebarItem extends DefaultSidebarItem
 {
     private $_title = '';
 	private $_contents = '';
-    
+
     function __construct($title="")
 	{
 		$this->_title = $title;
 	}
-    
+
     function set_contents($html)
 	{
 		$this->_contents = $html;
 	}
-    
+
     function add_menu_items($items, $active, $module='')
 	{
 		$this->_contents = '';
@@ -673,12 +675,12 @@ class SidebarItem extends DefaultSidebarItem
 			if ($item['id'] == $active) {
 				$class = ' class="current-page"';
             }
-            
+
 			$item['link'] = htmlspecialchars_uni($item['link']);
 			$this->_contents .= "        <li{$class}><a href=\"{$item['link']}\">{$item['title']}</a></li>\n";
 		}
 	}
-    
+
 	function get_markup($active='active', $mod='mod')
 	{
         $style = $class = '';
@@ -687,7 +689,7 @@ class SidebarItem extends DefaultSidebarItem
         } else {
             $class = ' class="active"';
         }
-        
+
         $markup = <<<EOT
 <li{$class}>
     <a>
@@ -699,7 +701,7 @@ class SidebarItem extends DefaultSidebarItem
     </ul>
 </li>
 EOT;
-        
+
         return $markup;
 	}
 }
@@ -713,23 +715,23 @@ class Table extends DefaultTable
     private $_cells = array();
 	private $_rows = array();
 	private $_headers = array();
-    
+
     function construct_cell($data, $extra=array())
 	{
 		$this->_cells[] = array("data" => $data, "extra" => $extra);
 	}
-    
+
 	function num_rows()
 	{
 		return count($this->_rows);
 	}
-    
+
     function construct_header($data, $extra=array())
 	{
 		$this->_headers[] = array("data" => $data, "extra" => $extra);
 	}
 
-    
+
     function construct_row($extra = array())
 	{
 		$i = 1;
@@ -738,7 +740,7 @@ class Table extends DefaultTable
 		foreach($this->_cells as $key => $cell)
 		{
 			$cells .= "\t\t\t<td";
-			
+
 			if(!isset($cell['extra']['class']))
 				$cell['extra']['class'] = '';
 
@@ -746,7 +748,7 @@ class Table extends DefaultTable
 				$cell['extra']['class'] .= " first";
 			elseif(!isset($this->_cells[$key+1]))
 				$cell['extra']['class'] .= " last";
-            
+
 			if($i == 2) {
 				$cell['extra']['class'] .= " alt_col";
 				$i = 0;
@@ -774,7 +776,7 @@ class Table extends DefaultTable
 
 		$this->_cells = array();
 	}
-    
+
     function construct_html($heading="", $border=1, $class=null, $table_id="")
 	{
 		$table = "<div class=\"row\">\n";
@@ -806,6 +808,8 @@ class Table extends DefaultTable
 			foreach($this->_headers as $key => $data)
 			{
 				$table .= "              <th";
+				if(!isset($data['extra']['class']))
+					$data['extra']['class'] = '';
 				if($key == 0)
 					$data['extra']['class'] .= " first";
 				elseif(!isset($this->_headers[$key+1]))
@@ -859,7 +863,7 @@ class Table extends DefaultTable
         $table .= "</div>\n";
 		// Clean up
 		$this->_cells = $this->_rows = $this->_headers = array();
-        
+
 		return $table;
 	}
 }
@@ -867,6 +871,15 @@ class Table extends DefaultTable
 class Form extends DefaultForm
 {
     public $i=0;
+
+	private $_return = false;
+
+	function __construct($script='', $method='', $id="", $allow_uploads=false, $name="", $return=false, $onsubmit="")
+	{
+		$this->_return = $return;
+		parent::__construct($script, $method, $id, $allow_uploads, $name, $return, $onsubmit);
+	}
+
     function generate_text_box($name, $value="", $options=array())
 	{
 		$input = "<input type=\"text\" name=\"".$name."\" value=\"".htmlspecialchars_uni($value)."\"";
@@ -885,7 +898,7 @@ class Form extends DefaultForm
 		$input .= ">";
 		return $input;
 	}
-    
+
     function generate_numeric_field($name, $value=0, $options=array())
 	{
 		if(is_numeric($value))
@@ -915,7 +928,7 @@ class Form extends DefaultForm
 		$input .= " />";
 		return $input;
 	}
-    
+
     function generate_password_box($name, $value="", $options=array())
 	{
 		$input = "<input type=\"password\" name=\"".$name."\" value=\"".htmlspecialchars_uni($value)."\"";
@@ -934,11 +947,12 @@ class Form extends DefaultForm
 		$input .= " />";
 		return $input;
 	}
-    
+
     function generate_file_upload_box($name, $options=array())
 	{
 		$input = "<input type=\"file\" name=\"{$name}\" id=\"i_{$name}\" class=\"sr-only inputfile\">\n";
         $input .= "<label for=\"i_{$name}\"";
+		$class = '';
         if(isset($options['class']))
 			$class = $options['class'];
         $input .= " class=\"btn btn-primary {$class}\"";
@@ -948,12 +962,13 @@ class Form extends DefaultForm
 		return $input;
 
 	}
-    
+
     function generate_text_area($name, $value="", $options=array())
 	{
 		$textarea = "<textarea";
 		if(!empty($name))
 			$textarea .= " name=\"{$name}\"";
+		$class = '';
 		if(isset($options['class']))
 			$class = $options['class'];
         $textarea .= " class=\"form-control {$class}\"";
@@ -980,7 +995,7 @@ class Form extends DefaultForm
 		$textarea .= "</textarea>\n";
 		return $textarea;
 	}
-    
+
     function generate_radio_button($name, $value="", $label="", $options=array())
 	{
         $input = "  <input type=\"radio\" name=\"{$name}\" value=\"".htmlspecialchars_uni($value)."\"";
@@ -1010,7 +1025,7 @@ class Form extends DefaultForm
 		$input .= "</label>\n";
 		return $input;
 	}
-    
+
     function generate_check_box($name, $value="", $label="", $options=array())
 	{
         $input = "<input type=\"checkbox\" name=\"{$name}\" value=\"".htmlspecialchars_uni($value)."\"";
@@ -1042,8 +1057,8 @@ class Form extends DefaultForm
 		$input .= "</label>";
 		return $input;
 	}
-    
-    function generate_select_box($name, $option_list, $selected=array(), $options=array())
+
+    function generate_select_box($name, $option_list=array(), $selected=array(), $options=array())
 	{
 		if(!isset($options['multiple']))
 			$select = "<select name=\"{$name}\"";
@@ -1053,6 +1068,7 @@ class Form extends DefaultForm
 			if(!isset($options['size']))
 				$options['size'] = count($option_list);
 		}
+		$class = '';
 		if(isset($options['class']))
 			$class = $options['class'];
         $select .= " class=\"form-control {$class}\"";
@@ -1077,7 +1093,7 @@ class Form extends DefaultForm
 		$select .= "</select>\n";
 		return $select;
 	}
-    
+
     function generate_forum_select($name, $selected, $options=array(), $is_first=1)
 	{
 		global $fselectcache, $forum_cache, $selectoptions;
@@ -1153,8 +1169,9 @@ class Form extends DefaultForm
 				$select = "<select name=\"{$name}\"";
 			else
 				$select = "<select name=\"{$name}\" multiple=\"multiple\"";
+			$class = '';
 			if(isset($options['class']))
-				$select = $options['class'];
+				$class = $options['class'];
             $select .= " class=\"form-control {$class}\"";
 			if(isset($options['id']))
 				$select .= " id=\"{$options['id']}\"";
@@ -1169,7 +1186,7 @@ class Form extends DefaultForm
 			return $select;
 		}
 	}
-    
+
     function generate_group_select($name, $selected=array(), $options=array())
 	{
 		global $cache;
@@ -1179,6 +1196,7 @@ class Form extends DefaultForm
 		if(isset($options['multiple']))
 			$select .= " multiple=\"multiple\"";
 
+		$class = '';
 		if(isset($options['class']))
 			$class = $options['class'];
         $select .= " class=\"form-control {$class}\"";
@@ -1196,15 +1214,15 @@ class Form extends DefaultForm
 		$select .= ">\n";
 
 		$groups_cache = $cache->read('usergroups');
-		
+
 		if(!is_array($selected))
 			$selected = array($selected);
-			
+
 		foreach($groups_cache as $group)
 		{
 			$selected_add = "";
-			
-			
+
+
 			if(in_array($group['gid'], $selected))
 				$selected_add = " selected=\"selected\"";
 
@@ -1215,7 +1233,7 @@ class Form extends DefaultForm
 
 		return $select;
 	}
-    
+
     function generate_submit_button($value, $options=array())
 	{
 		$input = "<input type=\"submit\" value=\"".htmlspecialchars_uni($value)."\"";
@@ -1235,7 +1253,7 @@ class Form extends DefaultForm
 		$input .= " />";
 		return $input;
 	}
-    
+
     function generate_reset_button($value, $options=array())
 	{
 		$input = "<input type=\"reset\" value=\"".htmlspecialchars_uni($value)."\"";
@@ -1251,7 +1269,7 @@ class Form extends DefaultForm
 		$input .= " />";
 		return $input;
 	}
-    
+
     function generate_yes_no_radio($name, $value="1", $int=true, $yes_options=array(), $no_options = array())
 	{
 		global $lang;
@@ -1290,7 +1308,7 @@ class Form extends DefaultForm
 		$yes_options['checked'] = $yes_checked;
 		$no_options['class'] = "radio_no ".$no_options['class'];
 		$no_options['checked'] = $no_checked;
-        
+
         $yesno = "<div class=\"btn-group\" data-toggle=\"buttons\">\n";
 		$yesno .= "  <label";
         if(isset($yes_options['checked']) && $yes_options['checked'] != 0)
@@ -1319,10 +1337,10 @@ class Form extends DefaultForm
         $yesno .= " /> {$lang->no}\n";
         $yesno .= "  </label>\n";
         $yesno .= "</div>";
-        
+
 		return $yesno;
 	}
-    
+
     function generate_on_off_radio($name, $value=1, $int=true, $on_options=array(), $off_options = array())
 	{
 		global $lang;
@@ -1390,10 +1408,10 @@ class Form extends DefaultForm
         $onoff .= " /> {$lang->off}\n";
         $onoff .= "  </label>\n";
         $onoff .= "</div>";
-        
+
 		return $onoff;
 	}
-    
+
     function generate_date_select($name, $day=0,$month=0,$year=0)
 	{
 		global $lang;
@@ -1426,7 +1444,7 @@ class Form extends DefaultForm
 
 		if(!$year)
 			$year = date("Y", TIME_NOW);
-        
+
         $built = "<div>";
         $built .= "  <div class=\"col-md-5 col-sm-5 col-xs-12\">\n";
 		$built .= $this->generate_select_box($name.'_day', $days, (int)$day, array('id' => $name.'_day', 'class' => 'date-picker'))." &nbsp; ";
@@ -1439,10 +1457,11 @@ class Form extends DefaultForm
         $built .= "</div>";
 		return $built;
 	}
-    
+
     function output_submit_wrapper($buttons)
 	{
 		global $plugins;
+		$buttons = $plugins->run_hooks("admin_form_output_submit_wrapper", $buttons);
 		$return = "<div class=\"x_panel form_button_wrapper\">\n";
 		foreach($buttons as $button)
 			$return .= "  " . $button." \n";
